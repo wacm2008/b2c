@@ -86,4 +86,8 @@ class SkuController extends AdminController
 
         return $form;
     }
+    public function skuDetail($goods_id)
+    {
+
+    }
 }

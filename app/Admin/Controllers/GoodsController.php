@@ -7,7 +7,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
-
+use App\Admin\Actions\GoodsController\Sku;
 class GoodsController extends AdminController
 {
     /**
@@ -37,6 +37,10 @@ class GoodsController extends AdminController
         $grid->column('updated_at', __('Updated at'));
         $grid->column('is_delete', __('Is delete'));
         $grid->column('is_onsale', __('Is onsale'));
+
+        $grid->actions(function($actions){
+            $actions->add(new Sku);
+        });
 
         return $grid;
     }

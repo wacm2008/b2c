@@ -13,4 +13,5 @@ Route::group([
     $router->get('/', 'HomeController@index')->name('admin.home');
     $router->resource('goods', GoodsController::class);
     $router->resource('sku', SkuController::class);
+    $router->get('/sku_detail/{goods_id}', 'SkuController@skuDetail');
 });
