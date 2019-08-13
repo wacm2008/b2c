@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+//商品展示
+Route::get('/goodslist', 'GoodsController@index');
+Route::get('/goodsdetail/{goods_id}', 'GoodsController@goodsdetail');
