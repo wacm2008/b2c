@@ -3,11 +3,14 @@
 namespace App\Admin\Controllers;
 
 use App\Model\GoodsModel;
+use App\Model\GoodsAttrModel;
+use App\Model\CategoryModel;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use App\Admin\Actions\GoodsController\Sku;
+use Encore\Admin\Layout\Content;
 class GoodsController extends AdminController
 {
     /**
@@ -81,13 +84,82 @@ class GoodsController extends AdminController
 
         $form->text('goods_sn', __('Goods sn'));
         $form->text('goods_name', __('Goods name'));
+        $form->select('cid', __('Cid'))->options(CategoryModel::selectOptions());
         $form->image('goods_img', __('Goods img'));
         $form->text('short_desc', __('Short desc'));
         $form->number('price0', __('Price0'));
         $form->number('price', __('Price'));
-        $form->switch('is_delete', __('Is delete'));
-        $form->switch('is_onsale', __('Is onsale'))->default(1);
+        //商品属性
+        $form->select('attr_id1', 'attr_id1')->options(GoodsAttrModel::selectOptions());
+        $form->select('attr_id2', 'attr_id2')->options(GoodsAttrModel::selectOptions());
+        $states = [
+            "on" => ["value" => 1, "text" => "是", "color" => "success"],
+            "off" => ["value" => 0, "text" => "否", "color" => "danger"],
+        ];
+        $form->switch('is_delete', __('Is delete'))->states($states);
+        $form->switch('is_onsale', __('Is onsale'))->default(1)->states($states);
 
         return $form;
+    }
+    public function edit($id,Content $content)
+    {
+        //$tab = new Tab();
+
+        $this->form()->tab("detail",function(){});
+        $this->form()->tab("sku",function(){});
+
+
+        return $content
+            ->title($this->title())
+            ->description($this->description['edit'] ?? trans('admin.edit'))
+            ->body($this->form()->edit($id));
+    }
+    public function update($id)
+    {
+
+        $attr_id1 = $_POST['attr_id1'];
+        $attr_id2 = $_POST['attr_id2'];
+        $_POST['attr_id'] = $attr_id1 . ',' . $attr_id2;
+
+        if($_POST['is_delete']=='on'){
+            $_POST['is_delete'] = 1;
+        }else{
+            $_POST['is_delete'] = 0;
+        }
+
+        if($_POST['is_onsale']=='on'){
+            $_POST['is_onsale'] = 1;
+        }else{
+            $_POST['is_onsale'] = 0;
+        }
+        unset($_POST['attr_id1']);
+        unset($_POST['attr_id2']);
+        unset($_POST['_token']);
+        unset($_POST['_method']);
+        unset($_POST['_previous_']);
+        GoodsModel::where(['goods_id'=>$id])->update($_POST);
+    }
+    public function store()
+    {
+        echo '<pre>';print_r($_POST);echo '</pre>';
+        $attr_id1 = $_POST['attr_id1'];
+        $attr_id2 = $_POST['attr_id2'];
+        unset($_POST['attr_id1']);
+        unset($_POST['attr_id2']);
+        unset($_POST['_token']);
+        unset($_POST['_previous_']);
+        if($_POST['is_delete']=='on'){
+            $_POST['is_delete'] = 1;
+        }else{
+            $_POST['is_delete'] = 0;
+        }
+
+        if($_POST['is_onsale']=='on'){
+            $_POST['is_onsale'] = 1;
+        }else{
+            $_POST['is_onsale'] = 0;
+        }
+        $_POST['attr_id'] = $attr_id1 . ',' . $attr_id2;
+        GoodsModel::insert($_POST);
     }
 }

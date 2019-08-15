@@ -2,21 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Model\GoodsAttrModel;
-use App\Model\GoodsAttrValueModel;
+use App\Model\CategoryModel;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class GoodsAttrController extends AdminController
+class CategoryController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = '商品属性管理';
+    protected $title = '商品分类管理';
 
     /**
      * Make a grid builder.
@@ -25,14 +24,14 @@ class GoodsAttrController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new GoodsAttrModel);
+        $grid = new Grid(new CategoryModel);
 
-        $grid->column('attr_id', __('Attr id'));
+        $grid->column('cid', __('Cid'));
         $grid->column('title', __('Title'));
+        $grid->column('parent_id', __('Parent id'));
         $grid->column('order', __('Order'));
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
-        $grid->column('parent_id', __('Parent id'));
 
         return $grid;
     }
@@ -45,14 +44,14 @@ class GoodsAttrController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(GoodsAttrModel::findOrFail($id));
+        $show = new Show(CategoryModel::findOrFail($id));
 
-        $show->field('attr_id', __('Attr id'));
+        $show->field('cid', __('Cid'));
         $show->field('title', __('Title'));
+        $show->field('parent_id', __('Parent id'));
         $show->field('order', __('Order'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
-        $show->field('parent_id', __('Parent id'));
 
         return $show;
     }
@@ -64,11 +63,11 @@ class GoodsAttrController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new GoodsAttrModel);
+        $form = new Form(new CategoryModel);
 
         $form->text('title', __('Title'));
-        $form->number('order', __('Order'))->default(1);
         $form->number('parent_id', __('Parent id'));
+        $form->number('order', __('Order'));
 
         return $form;
     }
