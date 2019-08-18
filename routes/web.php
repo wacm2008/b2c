@@ -21,3 +21,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 //商品展示
 Route::get('/goodslist', 'GoodsController@index');
 Route::get('/goodsdetail/{goods_id}', 'GoodsController@goodsdetail');
+//购物车
+Route::post('/carAdd','CarController@carAdd');

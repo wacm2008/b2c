@@ -108,7 +108,7 @@ class SkuController extends AdminController
             $attr_info = GoodsAttrModel::find($v)->toArray();
             //print_r($attr_info);die;
             $attr_value = GoodsAttrValueModel::select('attr_vid','title')->where(['attr_id'=>$v])->orderBy('order','asc')->get()->toArray();
-            //print_r($attr_value);die;
+            print_r($attr_value);die;
             $option = [];
             foreach($attr_value as $k1=>$v1){
                 $option[$v1['attr_vid']] = $v1['title'];
