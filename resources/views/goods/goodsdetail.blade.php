@@ -23,18 +23,22 @@
     <title>商品详情</title>
 </head>
 <body>
+<input type="hidden" id="shop_id" value="{{$shop_id}}">
 <input type="hidden" id="goods_id" value="{{$goods_id}}">
 <div id="tsShopContainer">
     <div id="tsImgS">
-        {{--<a href="" title="Images" class="MagicZoom" id="MagicZoom">--}}
+        <a href="storage/{{$goods_img}}" title="Images" class="MagicZoom" id="MagicZoom">
         <img src="storage/{{$goods_img}}" width="210" height="185" />
-        {{--</a>--}}
+        </a>
     </div>
 </div>
 <div class="pro_des">
 
     <div class="des_name">
         <p>{{$goods_name}}</p>
+    </div>
+    <div class="des_name">
+        <p>店铺：{{$shop_name}}</p>
     </div>
     <div class="des_price">
         本店价格：<b>￥{{$price}}</b><br />
@@ -127,16 +131,20 @@
         $("#carAdd").click(function(){
             var buy_number=$("#buy_number").val();
             var goods_id=$("#goods_id").val();
+            var shop_id=$("#shop_id").val();
             //console.log(buy_number);
 			//console.log(goods_id);
+            //console.log(shop_id);
             $.ajax({
                 url:'/carAdd',
-                data:{buy_number:buy_number,goods_id:goods_id},
+                data:{buy_number:buy_number,goods_id:goods_id,shop_id:shop_id},
                 dataType:'json',
                 type:'post',
                 async:false,
                 success:function (res) {
-                    console.log(res);
+                    if(res.code==1){
+                        alert(res.msg);
+                    }
                 }
             });
         });

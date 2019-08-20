@@ -23,3 +23,8 @@ Route::get('/goodslist', 'GoodsController@index');
 Route::get('/goodsdetail/{goods_id}', 'GoodsController@goodsdetail');
 //购物车
 Route::post('/carAdd','CarController@carAdd');
+Route::get('/carlist','CarController@carlist');
+Route::post('/totalPrice','CarController@totalPrice');
+Route::post('/changeNum','CarController@num');
+//订单
+Route::get('/orderAdd','OrderController@orderAdd');

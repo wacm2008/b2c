@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MercanteModel;
 use Illuminate\Http\Request;
 use App\Model\GoodsModel;
 use App\Model\GoodsAttrModel;
@@ -43,6 +44,8 @@ class GoodsController extends Controller
             'goods_id'=>$goods_id,
             'goods_name'=>$data['goods_name'],
             'goods_img'=>$data['goods_img'],
+            'shop_id'=>$data['shop_id'],
+            'shop_name'=>$data['shop_name'],
             'price'=>$data['price'],
             'attr'=>$attr_value
         ];

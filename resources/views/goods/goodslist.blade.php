@@ -27,6 +27,7 @@
                         <font>￥<span>{{$v->price}}</span></font> &nbsp;
                     </div>
                     <div class="name"><a href="/goodsdetail/{{$v->goods_id}}">{{$v->goods_name}}</a></div>
+                    <div class="name"><span>店铺：</span>{{$v->shop_name}}</div>
                     <div class="carbg">
                         <a href="javascript:void(0)" class="ss">收藏</a>
                         <a href="javascript:void(0)" class="j_car">加入购物车</a>
