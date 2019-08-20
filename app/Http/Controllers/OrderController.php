@@ -27,6 +27,7 @@ class OrderController extends Controller
 
             //拆单
             $list = $cart_list->toArray();
+            //print_r($list);die;
             $vender_order = [];
             $arr_goods_price = [];
 
@@ -36,11 +37,10 @@ class OrderController extends Controller
                 $vender_order[$v['shop_id']][] = $v;
                 //计算价格
                 $goods_price = SkuModel::where(['sku'=>$v['sku']])->first()->price;
-                $total += $goods_price * $v['store'];   //单价 * 数量
+                $total += $goods_price * $v['buy_number'];   //单价 * 数量
 
                 $arr_goods_price[$v['sku']] = $goods_price;
             }
-
             $order_info = [
                 'order_sn'  => $order_sn,       //总订单号
                 'uid'       => $this->uid,
@@ -54,13 +54,14 @@ class OrderController extends Controller
                 OrderModel::insert($order_info);
 
                 //分订单
+                //print_r($vender_order);die;
                 foreach($vender_order as $k1=>$v1)
                 {
                     $v_total = 0 ;
                     $v_order_sn = OrderModel::generateVOrderSN();   //分单号
                     //计算分单商品价格
                     foreach($v1 as $k2=>$v2){
-                        $v_total += $arr_goods_price[$v2['sku']] * $v2['store'];
+                        $v_total += $arr_goods_price[$v2['sku']] * $v2['buy_number'];
 
                         //记录订单商品
                         $order_goods = [
